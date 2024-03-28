@@ -60,7 +60,7 @@ module bool(input A,B,C,D, output F);
 endmodule
 
 
-module testbench;
+module testbench; 
 reg A,B,C,D;
 wire F;
 
@@ -86,6 +86,37 @@ $monitor("Time = %t  A = %b  B = %b  C = %b  D = %b  F = %b", $time, A,B,C,D,F);
 #5 A = 1; B = 1; C = 0; D = 1;
 #5 A = 1; B = 1; C = 1; D = 0;
 #5 A = 1; B = 1; C = 1; D = 1;
+
+$finish;
+end
+endmodule
+
+// F=(A∧B∧C)∨(¬A∧¬B∧¬C)∨(A⊕B⊕C)
+
+module exp(input A,B,C, output F);
+    assign F = (A & B & C) | (~A & ~B & ~C) | (A ^ B ^ C);
+endmodule
+
+module testbench;
+
+reg A,B,C;
+
+wire F;
+
+exp inst_exp(.A(A), .B(B), .C(C), .F(F));
+
+initial begin
+
+$monitor ("Time = %t  A = %b  B = %b  C = %b  F= %b ", $time, A,B,C,F);
+
+#5 A = 0; B = 0; C = 0;
+#5 A = 0; B = 0; C = 1;
+#5 A = 0; B = 1; C = 0;
+#5 A = 0; B = 1; C = 1;
+#5 A = 1; B = 0; C = 0;
+#5 A = 1; B = 0; C = 1;
+#5 A = 1; B = 1; C = 0;
+#5 A = 1; B = 1; C = 1;
 
 $finish;
 end
