@@ -10,4 +10,4 @@ module mycircut(input A, B, C, D, E, F, output M);
     and(L, J, K);
     or(M, I, L);
 
-endmodule
+endmodule   
